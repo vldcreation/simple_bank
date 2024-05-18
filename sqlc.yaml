@@ -1,0 +1,30 @@
+version: "2"
+cloud:
+    organization: ""
+    project: ""
+    hostname: ""
+sql:
+    - name: "postgres"
+      engine: "postgresql"
+      queries: "./db/sql/postgresql/query/"
+      schema: "./db/sql/postgresql/migration/"
+      rules:
+        - no-pg
+      gen:
+        go:
+          package: "db"
+          out: "./db/sql/postgresql/sqlc"
+          sql_package: "database/sql"
+          emit_db_tags: false
+          emit_prepared_queries: false
+          emit_interface: false
+          emit_exact_table_names: true
+          emit_empty_slices: true
+          emit_json_tags: true
+plugins: []
+rules: 
+    - name: no-pg
+      rule: |
+        config.engine == "postgresql"
+      message: "invalid engine: postgresql"
+

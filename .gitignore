@@ -1,0 +1,5 @@
+# ignore vendor directory
+vendor
+.scripts
+.DS_Store
+.env

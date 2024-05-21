@@ -40,8 +40,20 @@ jobs:
 
     - name: Install golang migrate
       run: |
+        # Get the latest version
+        version=$(curl -s https://api.github.com/repos/golang-migrate/migrate/releases/latest | jq -r .tag_name)
+
+        # Get the os and arch
+        os=$(uname -s | tr '[:upper:]' '[:lower:]')
+        arch=$(uname -m | sed 's/x86_64/amd64/')
+
+        # Download and install migrate
         curl -L https://github.com/golang-migrate/migrate/releases/download/$version/migrate.$os-$arch.tar.gz | tar xvz
-        sudo mv migrate.linux-amd64 /usr/local/bin/migrate
+
+        # Move the binary to the bin folder
+        sudo mv migrate.$os-$arch /usr/local/bin/migrate
+
+        # Make the binary executable
         which migrate
 
     - name: run migrations

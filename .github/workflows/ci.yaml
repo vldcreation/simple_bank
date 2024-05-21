@@ -10,7 +10,7 @@ env:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: secret
   POSTGRES_DB: simple_bank
-  
+
 jobs:
 
   test:
@@ -63,6 +63,10 @@ jobs:
 
     - name: run migrations
       run: make migrateup
+      env:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: secret
+        POSTGRES_DB: simple_bank
 
     - name: Test
       run: make test

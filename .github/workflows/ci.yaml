@@ -10,6 +10,8 @@ env:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: secret
   POSTGRES_DB: simple_bank
+  POSTGRES_HOST: localhost
+  POSTGRES_PORT: 5432
 
 jobs:
 
@@ -67,6 +69,8 @@ jobs:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: secret
         POSTGRES_DB: simple_bank
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
 
     - name: Test
       run: make test

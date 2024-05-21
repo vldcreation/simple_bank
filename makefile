@@ -11,10 +11,10 @@ dropdb:
 	docker exec -it postgres10 dropdb golang_masterclass
 
 migrateup:
-	migrate -path db/sql/postgresql/migration -database "postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@localhost:$(POSTGRES_PORT)/golang_masterclass?sslmode=disable" -verbose up
+	migrate -path db/sql/postgresql/migration -database "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@localhost:$(POSTGRES_PORT)/golang_masterclass?sslmode=disable" -verbose up
 
 migratedown:
-	migrate -path db/sql/postgresql/migration -database "postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@localhost:$(POSTGRES_PORT)/golang_masterclass?sslmode=disable" -verbose down
+	migrate -path db/sql/postgresql/migration -database "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@localhost:$(POSTGRES_PORT)/golang_masterclass?sslmode=disable" -verbose down
 
 sqlc:
 	sqlc generate

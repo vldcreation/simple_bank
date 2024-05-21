@@ -51,7 +51,7 @@ jobs:
         curl -L https://github.com/golang-migrate/migrate/releases/download/$version/migrate.$os-$arch.tar.gz | tar xvz
 
         # Move the binary to the bin folder
-        sudo mv migrate.$os-$arch /usr/local/bin/migrate
+        sudo mv migrate /usr/local/bin/migrate
 
         # Make the binary executable
         which migrate

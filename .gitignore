@@ -3,3 +3,4 @@ vendor
 .scripts
 .DS_Store
 .env
+config/env.yaml

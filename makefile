@@ -52,4 +52,8 @@ install:
 	@rm -rf vendor
 	@go mod download && go mod tidy && go mod vendor
 
-.PHONY: postgres_start postgres_stop createdb dropdb migrateup migratedown sqlc test test_create_account
+start:
+	@echo "Starting server...."
+	@go run main.go
+
+.PHONY: postgres_start postgres_stop createdb dropdb migrateup migratedown sqlc test test_create_account test_main_db install start

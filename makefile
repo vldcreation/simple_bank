@@ -1,7 +1,7 @@
-postgres_start:
+DB_start:
 	$(shell /bin/sh ./.scripts/postgres.sh);
 
-postgres_stop:
+DB_stop:
 	docker stop postgres10
 
 createdb:
@@ -11,10 +11,10 @@ dropdb:
 	docker exec -it postgres10 dropdb golang_masterclass
 
 migrateup:
-	migrate -path db/sql/postgresql/migration -database "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@localhost:$(POSTGRES_PORT)/$(POSTGRES_DB)?sslmode=disable" -verbose up
+	migrate -path db/sql/postgresql/migration -database "postgresql://$(DB_USER):$(DB_PASSWORD)@localhost:$(DB_PORT)/$(DB_DATABASE)?sslmode=disable" -verbose up
 
 migratedown:
-	migrate -path db/sql/postgresql/migration -database "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@localhost:$(POSTGRES_PORT)/$(POSTGRES_DB)?sslmode=disable" -verbose down
+	migrate -path db/sql/postgresql/migration -database "postgresql://$(DB_USER):$(DB_PASSWORD)@localhost:$(DB_PORT)/$(DB_DATABASE)?sslmode=disable" -verbose down
 
 sqlc:
 	sqlc generate
@@ -56,4 +56,4 @@ start:
 	@echo "Starting server...."
 	@go run main.go
 
-.PHONY: postgres_start postgres_stop createdb dropdb migrateup migratedown sqlc test test_create_account test_main_db install start
+.PHONY: DB_start DB_stop createdb dropdb migrateup migratedown sqlc test test_create_account test_main_db install start

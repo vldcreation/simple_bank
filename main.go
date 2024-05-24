@@ -18,7 +18,7 @@ const (
 func main() {
 	var (
 		err error
-		cfg = app.NewConfig()
+		cfg = app.NewConfigFromYaml("")
 	)
 
 	dbSource := "postgresql://" + cfg.DB.User + ":" + cfg.DB.Password + "@" + cfg.DB.Host + ":" + cfg.DB.Port + "/" + cfg.DB.Database + "?sslmode=disable"

@@ -15,12 +15,12 @@ type Config struct {
 }
 
 type DBConfig struct {
-	Driver   string `yaml:"driver" env:"driver" mapstructure:"db_driver"`
-	User     string `yaml:"user" env:"user" mapstructure:"db_user"`
-	Password string `yaml:"password" env:"password" mapstructure:"db_password"`
-	Host     string `yaml:"host" env:"host" mapstructure:"db_host"`
-	Port     string `yaml:"port" env:"port" mapstructure:"db_port"`
-	Database string `yaml:"database" env:"database" mapstructure:"db_database"`
+	Driver   string `yaml:"driver" json:"driver" env:"DB_DRIVER" mapstructure:"db_driver"`
+	User     string `yaml:"user" json:"user" env:"DB_USER" mapstructure:"db_user"`
+	Password string `yaml:"password" json:"password" env:"DB_PASSWORD" mapstructure:"db_password"`
+	Host     string `yaml:"host" json:"host" env:"DB_HOST" mapstructure:"db_host"`
+	Port     string `yaml:"port" json:"port" env:"DB_PORT" mapstructure:"db_port"`
+	Database string `yaml:"database" json:"database" env:"DB_DATABASE" mapstructure:"db_database"`
 }
 
 var (
@@ -46,9 +46,12 @@ func NewConfigFromYaml(path string) *Config {
 	return _cfg
 }
 
+// NOTE: this NewConfig parser only work with single struct
+// TODO: handle nested struct
 func NewConfigFromEnv(path string) *Config {
 	var (
-		_cfg = &Config{}
+		configDB = DBConfig{}
+		_cfg     = &Config{}
 	)
 
 	if path == "" {
@@ -63,14 +66,21 @@ func NewConfigFromEnv(path string) *Config {
 
 	viper.AutomaticEnv()
 
+	viper.ConfigFileUsed()
+
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Fatalf("unable to load config %+v", err)
-	}
+		// load config from environtment variables
+		if err = util.SetEnvValue("env", &configDB); err != nil {
+			log.Fatalf("unable to parse config from environtment vars: %+v", err)
+		}
 
-	err = viper.Unmarshal(&_cfg.DB)
-	if err != nil {
-		log.Fatalf("unable to unmarshall config %+v", err)
+		_cfg.DB = &configDB
+	} else {
+		err = viper.Unmarshal(&_cfg.DB)
+		if err != nil {
+			log.Fatalf("unable to parse config %+v", err)
+		}
 	}
 
 	log.Printf("DB %+v", _cfg.DB)

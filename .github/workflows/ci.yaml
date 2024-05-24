@@ -7,11 +7,11 @@ on:
     branches: [ "master" ]
 
 env:
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: secret
-  POSTGRES_DB: simple_bank
-  POSTGRES_HOST: localhost
-  POSTGRES_PORT: 5432
+  DB_USER: postgres
+  DB_PASSWORD: secret
+  DB_DATABASE: simple_bank
+  DB_HOST: localhost
+  DB_PORT: 5432
 
 jobs:
 
@@ -66,11 +66,11 @@ jobs:
     - name: run migrations
       run: make migrateup
       env:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: secret
-        POSTGRES_DB: simple_bank
-        POSTGRES_HOST: localhost
-        POSTGRES_PORT: 5432
+        DB_USER: postgres
+        DB_PASSWORD: secret
+        DB_DATABASE: simple_bank
+        DB_HOST: localhost
+        DB_PORT: 5432
 
     - name: Test
       run: make test

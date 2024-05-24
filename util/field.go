@@ -23,14 +23,14 @@ func SetEnvValue(tag string, s interface{}) error {
 			// A Value can be changed only if it is
 			// addressable and was not obtained by
 			// the use of unexported struct fields.
-			// if f.CanSet() {
-			// change value of N
-			if f.Kind() == reflect.String {
-				v := strings.Split(typ.Field(i).Tag.Get(tag), ",")[0] // use split to ignore tag "options" like omitempty, etc.
-				log.Printf("tag: %s, value: %s, env: %s", tag, v, os.Getenv(v))
-				f.SetString(os.Getenv(v))
+			if f.CanSet() {
+				// change value of N
+				if f.Kind() == reflect.String {
+					v := strings.Split(typ.Field(i).Tag.Get(tag), ",")[0] // use split to ignore tag "options" like omitempty, etc.
+					log.Printf("tag: %s, value: %s, env: %s", tag, v, os.Getenv(v))
+					f.SetString(os.Getenv(v))
+				}
 			}
-			// }
 		}
 	}
 

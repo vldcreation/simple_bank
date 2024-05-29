@@ -20,6 +20,7 @@ sqlc:
 	sqlc generate
 
 cache?=1
+debug?=0
 
 test_main_db:
 	@echo "Running tests...."
@@ -45,12 +46,18 @@ test:
 		rm -f cover.out cover.html && \
 		go test -v -cover -coverprofile cover.out ./... && \
 		go tool cover -html cover.out -o cover.html && \
-		open cover.html ; \
+		echo "Debug mode is $(debug)" && \
+		if [ "$(debug)" = 1 ]; then \
+			open cover.html ; \
+		fi; \
 	else \
 		rm -f cover.out cover.html && \
 		go test -v -cover -coverprofile cover.out -count=1 ./... && \
 		go tool cover -html cover.out -o cover.html && \
-		open cover.html ; \
+		echo "Debug mode is $(debug)" && \
+		if [ "$(debug)" = 1 ]; then \
+			open cover.html ; \
+		fi; \
 	fi
 
 install:

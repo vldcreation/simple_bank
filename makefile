@@ -42,9 +42,15 @@ test:
 	@echo "Running tests...."
 	@echo "Cache is $(cache)"
 	@if [ "$(cache)" = 1 ]; then \
-		go test -v -cover ./...; \
+		rm -f cover.out cover.html && \
+		go test -v -cover -coverprofile cover.out ./... && \
+		go tool cover -html cover.out -o cover.html && \
+		open cover.html ; \
 	else \
-		go test -v -cover -count=1 ./...; \
+		rm -f cover.out cover.html && \
+		go test -v -cover -coverprofile cover.out -count=1 ./... && \
+		go tool cover -html cover.out -o cover.html && \
+		open cover.html ; \
 	fi
 
 install:

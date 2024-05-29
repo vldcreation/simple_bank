@@ -5,3 +5,6 @@ vendor
 .env
 config/env.yaml
 config/*.env
+coverage
+cover.out
+cover.html

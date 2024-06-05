@@ -1,3 +1,11 @@
+cache?=1
+dev?=0
+DB_URL?="postgresql://$(DB_USER):$(DB_PASSWORD)@localhost:$(DB_PORT)/$(DB_DATABASE)?sslmode=disable"
+
+ifeq ($(dev), 1)
+	DB_URL="postgresql://postgres:secret@localhost:5432/golang_masterclass?sslmode=disable"
+endif
+
 DB_start:
 	$(shell /bin/sh ./.scripts/postgres.sh);
 
@@ -11,16 +19,19 @@ dropdb:
 	docker exec -it postgres10 dropdb golang_masterclass
 
 migrateup:
-	migrate -path db/sql/postgresql/migration -database "postgresql://$(DB_USER):$(DB_PASSWORD)@localhost:$(DB_PORT)/$(DB_DATABASE)?sslmode=disable" -verbose up
+	migrate -path db/sql/postgresql/migration -database $(DB_URL) -verbose up
+
+migrateup1:
+	migrate -path db/sql/postgresql/migration -database $(DB_URL) -verbose up 1
 
 migratedown:
-	migrate -path db/sql/postgresql/migration -database "postgresql://$(DB_USER):$(DB_PASSWORD)@localhost:$(DB_PORT)/$(DB_DATABASE)?sslmode=disable" -verbose down
+	migrate -path db/sql/postgresql/migration -database $(DB_URL) -verbose down
+
+migratedown1:
+	migrate -path db/sql/postgresql/migration -database $(DB_URL) -verbose down 1
 
 sqlc:
 	sqlc generate
-
-cache?=1
-debug?=0
 
 test_main_db:
 	@echo "Running tests...."
@@ -46,7 +57,7 @@ test:
 		rm -f cover.out cover.html && \
 		go test -v -cover -coverprofile cover.out ./... && \
 		go tool cover -html cover.out -o cover.html && \
-		echo "Debug mode is $(debug)" && \
+		echo "Dev mode is $(debug)" && \
 		if [ "$(debug)" = 1 ]; then \
 			open cover.html ; \
 		fi; \
@@ -54,7 +65,7 @@ test:
 		rm -f cover.out cover.html && \
 		go test -v -cover -coverprofile cover.out -count=1 ./... && \
 		go tool cover -html cover.out -o cover.html && \
-		echo "Debug mode is $(debug)" && \
+		echo "Dev mode is $(debug)" && \
 		if [ "$(debug)" = 1 ]; then \
 			open cover.html ; \
 		fi; \
@@ -69,4 +80,4 @@ start:
 	@echo "Starting server...."
 	@go run main.go
 
-.PHONY: DB_start DB_stop createdb dropdb migrateup migratedown sqlc test test_create_account test_main_db install start
+.PHONY: DB_start DB_stop createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test test_create_account test_main_db install start

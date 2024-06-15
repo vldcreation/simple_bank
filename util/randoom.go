@@ -37,3 +37,7 @@ func RandAmount() int64 {
 func RandCurrency() string {
 	return AllCurrencies()[rand.Intn(len(AllCurrencies()))]
 }
+
+func RandEmail() string {
+	return RandString(6) + "@gmail.com"
+}

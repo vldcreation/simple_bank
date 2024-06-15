@@ -6,13 +6,17 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/vldcreation/simple_bank/util"
 )
 
 func createRandoomAccount(t *testing.T) Accounts {
+	user1 := createRandoomUser(t)
+	assert.NotEmpty(t, user1)
+
 	args := CreateAccountParams{
-		Owner:    util.RandOwnersName(),
+		Owner:    user1.Username,
 		Balance:  util.RandAmount(),
 		Currency: util.RandCurrency(),
 	}

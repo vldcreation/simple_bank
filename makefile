@@ -80,4 +80,8 @@ start:
 	@echo "Starting server...."
 	@go run main.go
 
+mock:
+	@echo "Generating mocks...."
+	@mockgen -source db/sql/postgresql/sqlc/store.go -destination db/sql/postgresql/mock/store.go -package mockdb -aux_files mockdb=db/sql/postgresql/sqlc/querier.go
+
 .PHONY: DB_start DB_stop createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test test_create_account test_main_db install start

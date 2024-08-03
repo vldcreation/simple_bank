@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 
 	_ "github.com/lib/pq"
@@ -18,7 +19,7 @@ const (
 func main() {
 	var (
 		err error
-		cfg = app.NewConfigFromEnv("")
+		cfg = app.NewConfigFromYaml("")
 	)
 
 	dbSource := "postgresql://" + cfg.DB.User + ":" + cfg.DB.Password + "@" + cfg.DB.Host + ":" + cfg.DB.Port + "/" + cfg.DB.Database + "?sslmode=disable"
@@ -31,7 +32,7 @@ func main() {
 	store := db.NewStore(conn)
 	server := api.NewServer(store)
 
-	err = server.Start(":8080")
+	err = server.Start(fmt.Sprintf(":%s", cfg.APP.Port))
 	if err != nil {
 		log.Fatal("cannot start server: ", err)
 	}

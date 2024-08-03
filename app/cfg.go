@@ -11,7 +11,8 @@ import (
 )
 
 type Config struct {
-	DB *DBConfig `yaml:"db" env:"db" mapstructure:"db"`
+	APP *APPConfig `yaml:"app" env:"app" mapstructure:"app"`
+	DB  *DBConfig  `yaml:"db" env:"db" mapstructure:"db"`
 }
 
 type DBConfig struct {
@@ -21,6 +22,12 @@ type DBConfig struct {
 	Host     string `yaml:"host" json:"host" env:"DB_HOST" mapstructure:"db_host"`
 	Port     string `yaml:"port" json:"port" env:"DB_PORT" mapstructure:"db_port"`
 	Database string `yaml:"database" json:"database" env:"DB_DATABASE" mapstructure:"db_database"`
+}
+
+type APPConfig struct {
+	Name string `yaml:"name" json:"name" env:"APP_NAME" mapstructure:"app_name"`
+	Port string `yaml:"port" json:"port" env:"APP_PORT" mapstructure:"app_port"`
+	Env  string `yaml:"env" json:"env" env:"APP_ENV" mapstructure:"app_env"`
 }
 
 var (

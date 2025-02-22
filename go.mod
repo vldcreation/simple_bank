@@ -1,8 +1,11 @@
 module github.com/vldcreation/simple_bank
 
-go 1.21
+go 1.22
+
+toolchain go1.23.5
 
 require (
+	github.com/aead/chacha20poly1305 v0.0.0-20170617001512-233f39982aeb
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-playground/validator/v10 v10.20.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
@@ -13,13 +16,13 @@ require (
 	github.com/o1egl/paseto v1.0.0
 	github.com/spf13/viper v1.18.2
 	github.com/stretchr/testify v1.9.0
+	go.uber.org/mock v0.5.0
 	golang.org/x/crypto v0.25.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
-	github.com/aead/chacha20poly1305 v0.0.0-20170617001512-233f39982aeb // indirect
 	github.com/aead/poly1305 v0.0.0-20180717145839-3fee0db0b635 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect

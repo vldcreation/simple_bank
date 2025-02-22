@@ -10,6 +10,7 @@ import (
 	"github.com/vldcreation/simple_bank/api"
 	"github.com/vldcreation/simple_bank/app"
 	db "github.com/vldcreation/simple_bank/db/sql/postgresql/sqlc"
+	"github.com/vldcreation/simple_bank/token"
 )
 
 const (
@@ -29,8 +30,12 @@ func main() {
 		log.Fatal("cannot connect to db: ", err)
 	}
 
+	tokenMaker, err := token.NewPasetoMaker(cfg.Token.SecretKey)
+	if err != nil {
+		log.Fatalf("cannot init token maker: %+v\n", err)
+	}
 	store := db.NewStore(conn)
-	server := api.NewServer(store)
+	server := api.NewServer(store, tokenMaker, cfg)
 
 	err = server.Start(fmt.Sprintf(":%s", cfg.APP.Port))
 	if err != nil {

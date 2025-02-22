@@ -10,11 +10,13 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
+	"github.com/vldcreation/simple_bank/app"
 	mock_db "github.com/vldcreation/simple_bank/db/sql/postgresql/mock"
 	db "github.com/vldcreation/simple_bank/db/sql/postgresql/sqlc"
+	"github.com/vldcreation/simple_bank/token"
 	"github.com/vldcreation/simple_bank/util"
+	"go.uber.org/mock/gomock"
 )
 
 func TestGetAccountAPI(t *testing.T) {
@@ -91,7 +93,7 @@ func TestGetAccountAPI(t *testing.T) {
 			store := mock_db.NewMockStore(ctrl)
 			tc.buildStubs(store)
 
-			server := NewServer(store)
+			server := NewServer(store, &token.JWTMaker{}, &app.Config{})
 			recorder := httptest.NewRecorder()
 
 			url := fmt.Sprintf("/accounts/%d", tc.accountID)

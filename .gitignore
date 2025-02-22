@@ -8,3 +8,6 @@ config/*.env
 coverage
 cover.out
 cover.html
+
+# ignore scripts
+dev.sh

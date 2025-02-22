@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"sync"
+	"time"
 
 	"github.com/spf13/viper"
 	"github.com/vldcreation/simple_bank/consts"
@@ -11,8 +12,9 @@ import (
 )
 
 type Config struct {
-	APP *APPConfig `yaml:"app" env:"app" mapstructure:"app"`
-	DB  *DBConfig  `yaml:"db" env:"db" mapstructure:"db"`
+	APP   *APPConfig   `yaml:"app" env:"app" mapstructure:"app"`
+	DB    *DBConfig    `yaml:"db" env:"db" mapstructure:"db"`
+	Token *TokenConfig `yaml:"token" env:"token" mapstructure:"token"`
 }
 
 type DBConfig struct {
@@ -28,6 +30,12 @@ type APPConfig struct {
 	Name string `yaml:"name" json:"name" env:"APP_NAME" mapstructure:"app_name"`
 	Port string `yaml:"port" json:"port" env:"APP_PORT" mapstructure:"app_port"`
 	Env  string `yaml:"env" json:"env" env:"APP_ENV" mapstructure:"app_env"`
+}
+
+type TokenConfig struct {
+	Generator           string        `yaml:"generator" json:"generator" env:"token_generator" mapstructure:"token_generator"`
+	SecretKey           string        `yaml:"secret_key" json:"secret_key" env:"token_secret_key" mapstructure:"token_secret_key"`
+	AccessTokenDuration time.Duration `yaml:"access_token_duration" json:"token_access_token_duration" env:"token_access_token_duration" mapstructure:"token_access_token_duration"`
 }
 
 var (

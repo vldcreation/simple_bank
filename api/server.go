@@ -40,6 +40,7 @@ func NewServer(store db.Store, tokenMaker token.Maker, config *app.Config) *Serv
 	// user routes
 	router.POST("/users", server.createUser)
 	router.GET("/users/:username", server.getUser)
+	router.POST("/users/login", server.loginUser)
 
 	server.router = router
 	return server

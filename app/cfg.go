@@ -24,6 +24,7 @@ type DBConfig struct {
 	Host     string `yaml:"host" json:"host" env:"DB_HOST" mapstructure:"db_host"`
 	Port     string `yaml:"port" json:"port" env:"DB_PORT" mapstructure:"db_port"`
 	Database string `yaml:"database" json:"database" env:"DB_DATABASE" mapstructure:"db_database"`
+	SSLMode  bool   `yaml:"sslmode" json:"sslmode" env:"DB_DATABASE" mapstructure:"db_sslmode"`
 }
 
 type APPConfig struct {
